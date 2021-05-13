@@ -34,6 +34,10 @@ pip install CombineMols
 # Examples
 ![example](https://user-images.githubusercontent.com/65825773/118081640-baaa9400-b3f6-11eb-8416-cc19a32922a8.png)
 
+```
+from rdkit import Chem
+from CombineMols.CombineMols import CombineMols
+```
 Two molecule classes can be combined.
 ```
 mol1 = Chem.MolFromSmiles('IOc1c[nH]c2ncc(I)cc12')
