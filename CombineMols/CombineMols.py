@@ -17,7 +17,7 @@ def CombineMols(mol1, mol2, dummy=53):
             Returns:
                 Mol
     """
-    if not (dummy.isdecimal()):
+    if type(dummy) == int:
         # If the dummy atom is given an atomic symbol, replace it with an atomic number
         dummy = element(dummy).atomic_number
 
