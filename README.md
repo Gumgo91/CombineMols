@@ -32,6 +32,7 @@ pip install CombineMols
 ```
 
 # Examples
+![example](https://user-images.githubusercontent.com/65825773/118081640-baaa9400-b3f6-11eb-8416-cc19a32922a8.png)
 
 Two molecule classes can be combined.
 ```
