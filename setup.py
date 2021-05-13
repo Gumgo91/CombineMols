@@ -18,7 +18,7 @@ py_modules=['CombineMols'],
 
 python_requires='>=3',
 
-install_requires=['rdkit', 'mendeleev'],
+install_requires=['mendeleev'],
 
 packages=find_packages(exclude = []),
 
