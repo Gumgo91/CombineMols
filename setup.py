@@ -4,7 +4,7 @@ setup(name='CombineMols',
 
 version='1.0.0.0',
 
-description='easy to combine the two molecules',
+description='Easy to combine two molecules',
 
 author='Hyunseung Kong',
 

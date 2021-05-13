@@ -1,2 +1,2 @@
 # CombineMols
- easy to combine the two molecules
+Easy to combine two molecules
