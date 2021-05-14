@@ -5,21 +5,25 @@ from mendeleev import element
 RDLogger.DisableLog('rdApp.*')  # for skip RDKit messages
 
 
-def CombineMols(mol1, mol2, dummy=53):
+def CombineMols(mol1, mol2, dummy=53, bridge=0):
     """
     CombineMols( (Mol/str)mol1, (Mol/str)mol2, (int,str)dummy) -> list:
         Returns list of possible combinations of combined molecules
             Arguments:
                 - mol1: (Mol/SMILES string) the molecule 
                 - mol2: (Mol/SMILES string) the molecule 
-                - dummy: (int of atomic num)/str of atomic symbol) The atomic number or symbol of the dummy atom, which
+                - dummy: (int of atomic num/str of atomic symbol) The atomic number or symbol of the dummy atom, which
                 indicates the atom you want to bond with.
+                - bridge: (int of atomic num/str of atomic symbol) Before intermolecular connections, add bridge atoms
             Returns:
                 Mol
     """
-    if type(dummy) == int:
+    if type(dummy) == str:
         # If the dummy atom is given an atomic symbol, replace it with an atomic number
         dummy = element(dummy).atomic_number
+        
+    if type(bridge) == str:
+        bridge = element(bridge).atomic_number         
 
     # Convert to molecule class if given SMILES string type
     if type(mol1) == str:
@@ -27,7 +31,15 @@ def CombineMols(mol1, mol2, dummy=53):
 
     if type(mol2) == str:
         mol2 = Chem.MolFromSmiles(mol2)
-
+    
+    #If a bridge atom is given, the dummy atoms are extended in batches
+    if bridge !=0 :
+        mol1 = Chem.ReplaceSubstructs(mol1,
+                                     Chem.MolFromSmiles(element(dummy).symbol),
+                                     Chem.MolFromSmiles('{}{}'.format(element(dummy).symbol,element(bridge).symbol)),
+                                     replaceAll=True,
+                                     replacementConnectionPoint=1)[0]
+    
     bonds = list()
     for atom in mol1.GetAtoms():
         if atom.GetAtomicNum() == dummy:
@@ -44,12 +56,20 @@ def CombineMols(mol1, mol2, dummy=53):
         Chem.rdchem.EditableMol.ReplaceAtom(mol1e, bond[1], Chem.Atom(84))
         Chem.rdchem.EditableMol.RemoveAtom(mol1e, bond[0])
         new_mol = mol1e.GetMol()
-
+        
+        
+        for j, atom in enumerate(new_mol.GetAtoms()):
+            if atom.GetAtomicNum() == 84:
+                atom_index = j
+                break
+        
+        
         mod_mol = Chem.ReplaceSubstructs(mol2,
                                          Chem.MolFromSmiles(element(dummy).symbol),
                                          new_mol,
                                          replaceAll=False,
-                                         replacementConnectionPoint=0)
+                                         replacementConnectionPoint=j)
+
         for i in range(len(mod_mol)):
             for j, atom in enumerate(mod_mol[i].GetAtoms()):
                 if atom.GetAtomicNum() == 84:
