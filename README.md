@@ -7,6 +7,8 @@ This intuitively aids in the combining of molecules using dummy atoms.
 The easiest way to install the dependencies is to install the Anaconda 3 Python distribution and use conda 
 to set up an environment with RDKit.
 
+[![Downloads](https://pepy.tech/badge/combinemols)](https://pepy.tech/project/combinemols)
+
 # Dependencies
 
 rdkit / mendeleev
